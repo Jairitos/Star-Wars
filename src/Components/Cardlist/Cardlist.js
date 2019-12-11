@@ -2,7 +2,7 @@ import React from 'react';
 import Card from '../Card/Card';
 
 
-const Cardlist = ({item}) => {
+const Cardlist = ({category, item}) => {
     return (
         <div>
             {
@@ -11,6 +11,7 @@ const Cardlist = ({item}) => {
                     <Card
                     key={i}
                     name = {item[i].name}
+                    category = {category}
                     />
                 );
              

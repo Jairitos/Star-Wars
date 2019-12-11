@@ -5,15 +5,36 @@
   src: local('Death Star Regular'), url('./font/Death Star.woff') format('woff');
 }
 
-@font-face {font-family:"Star Jedi Outline";src: url("./font/Starjout.ttf") format("truetype");font-weight:normal;font-style:normal;}
-
-
-.App {
-  text-align: center;
-  height: 90vh;
-  width: 98vw;
+@font-face {
+  font-family: 'Star Jedi Outline';
+  src: url('./font/Starjout.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
+.loading {
+  color: white;
+  font-size: 5rem;
+  text-transform: uppercase;
+}
+
+.App {
+  position: relative;
+  min-height: 100vh;
+  text-align: center;
+  padding-bottom: 100px;
+}
+
+.logo {
+  width: 40%;
+  height: auto;
+  margin-top: 3rem;
+}
+
+.container {
+  width: 70vw;
+  margin: 0 auto;
+}
 
 /* Card Categories */
 
@@ -21,8 +42,6 @@
   width: 30rem;
   height: 15rem;
   padding: 0;
-  color: transparent;
-  border: none;
   overflow: hidden;
 }
 
@@ -31,10 +50,12 @@
 }
 
 .bg_category {
-  width: 30rem;
-  height: 15rem;
+  width: 100%;
+  height: 100%;
   padding: 0;
   display: inline-block;
+  transform: scale(1.0);
+  transition: transform 0.8s;
 }
 
 .flexbox {
@@ -42,10 +63,8 @@
   width: inherit;
   height: inherit;
   overflow: hidden;
-  z-index: 9999;
-  border: none;
   padding: 0;
- 
+  transition: all 0.8s;
 }
 
 .hover {
@@ -55,26 +74,28 @@
   background: #050404a9;
   height: 100%;
   width: 100%;
-  transition: 1s;
-  overflow: hidden;
+  transition: all 0.8s;
   display: flex;
   justify-content: center;
   align-items: flex-end;
   border: none;
-   text-transform: uppercase;
-  
+  text-transform: uppercase;
+  z-index: 1;
 }
 
 .flexbox:hover .hover {
   visibility: visible;
   top: 0;
-  z-index: 9999;
+  z-index: 1;
 }
 
+.flexbox:hover .bg_category {
+  transform: scale(1.2);
+}
 
 .card_category_title {
   display: inline-block;
-  color: #FFE81F;
+  color: #ffe81f;
   font-size: 1.2rem;
   height: 2rem;
   letter-spacing: 0.2rem;
@@ -83,7 +104,7 @@
 /* Titles */
 .title {
   font-family: 'Star Jedi Outline';
-  color: #FFE81F;
+  color: #ffe81f;
   font-size: 6rem;
   margin-bottom: 1rem;
   font-weight: 200;
@@ -96,27 +117,23 @@
   font-size: 1.4rem;
   margin-bottom: 5rem;
   font-weight: 100;
-  transition: 0.5s;
   letter-spacing: 0.2rem;
-}
-
-.title_small:hover {
-  color: rgb(22, 6, 248);
 }
 
 .title_categor,
 .h_big {
   font-family: 'Star Jedi Outline';
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: 200;
   color: #f4f4f4;
   letter-spacing: 0.3rem;
 }
 
 .card_title {
-  font-size: 1rem;
+  font-size: 0.8rem;
   letter-spacing: 0.1rem;
   color: rgb(63, 63, 63);
+  padding: 0.5rem;
 }
 
 .fixed {
@@ -132,31 +149,66 @@
   background-repeat: no-repeat;
 }
 
+/* Card Details */
+
 .box_big {
-  width: 80rem;
-  height: auto;
+  height: 100%;
   display: flex;
   justify-content: space-between;
   text-align: start;
+  background: #dfdfdfd5;
+}
+
+.box_big_items {
+  height: 100%;
+  display: flex;
+  flex-basis: 80%;
+  font-size: 1.2rem;
 }
 
 .box_big_item {
   display: flex;
-  flex-basis: 80%;
-  font-size: 1.5rem;
+  flex-direction: column;
+  justify-content: center;
+  margin: 2rem 0;
+  line-height: 1.5rem;
 }
 
-.cardDetails_img{
+.box_film_characters {
+  background: #dfdfdfd5;
+  width: 50%;
+  height: 20rem;
+}
+
+.cardDetails_img {
   height: 100%;
+  width: auto;
 }
 
+.property_title {
+  font-weight: 700;
+}
+
+/* Card  */
 .btn_card {
-  border: none;
   cursor: pointer;
-  width: 300px;
+  width: 15rem;
   height: auto;
+  max-height: 40rem;
   padding: 0;
   background: #dfdfdfd5;
+  overflow: hidden;
+  border: none;
+  transition: 0.5s;
+}
+
+.btn_card:hover {
+  border: 1px solid #ffe81f;
+}
+
+.card_img {
+  width: 100%;
+  height: auto;
 }
 
 .btn_card_cat {
@@ -164,40 +216,65 @@
   cursor: pointer;
 }
 
-
-
-.btn_back:hover {
-  color: rgb(197, 180, 24);
-  border-left: 6px solid rgb(31, 35, 255);
-}
-
 /* nav */
 .main_nav {
   margin: 0 auto;
-  width: 6rem;
+}
+
+.main_nav_links {
   display: flex;
   justify-content: center;
 }
 
 .btn_back {
-  font-family: 'Death Star Regular' ;
+  position: relative;
+  font-family: 'Death Star Regular';
   display: inline-block;
   cursor: pointer;
-  color: #FFE81F;
+  color: #ffe81f;
   font-size: 1.2rem;
   letter-spacing: 0.2rem;
-  border-left: 0px solid transparent;
-  transition: 0.5s;
-  margin-bottom: 2rem;  
+  margin-bottom: 2rem;
+  padding: 1rem;
+  transition: all 0.6s;
 }
 
+.btn_back::after {
+  content: ' ';
+  position: absolute;
+  bottom: 0;
+  left: 1rem;
+  display: inline-block;
+  height: 8%;
+  width: 0%;
+  background: transparent;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border: 1px solid transparent;
+  transition: all 0.6s;
+  box-shadow: 0;
+}
+
+.btn_back:hover {
+  color: rgb(105, 98, 3);
+}
+
+.btn_back:hover::after {
+  height: 8%;
+  width: 60%;
+  border: 1px solid rgb(180, 0, 30);
+  background: rgb(255, 177, 190);
+  box-shadow: 0px 0px 20px 10px #ce0c2c;
+}
 
 /* footer */
 .main_footer {
-height: 200px;
-display: flex;
-align-items: flex-end;
-justify-content: center;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%);
+  height: 50px;
+  width: 100%;
 }
 
 .p_footer {

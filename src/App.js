@@ -1,32 +1,35 @@
 import React from 'react';
 import Particles from 'react-particles-js';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
-import Cardlist from './Components/Cardlist/Cardlist';
-import CardlistFilms from './Components/Cardlist/CardlistFilms';
-import SearchBox from './Components/Searchbox/SearchBox';
+// Different pages
+import Characters from './Containers/Characters';
+import Films from './Containers/Films';
+import Planets from './Containers/Planets';
+import Species from './Containers/Species';
+import Starships from './Containers/Starships';
+import Vehicles from './Containers/Vehicles';
+
 import Navigation from './Components/Navigation/Navigation';
 import CardCategory from './Components/Card/CardCat';
-import Attack from './Components/Films/Attack';
-import Empire from './Components/Films/Empire';
-import Force from './Components/Films/Force';
-import NewHope from './Components/Films/NewHope';
-import Phantom from './Components/Films/Phantom';
-import Return from './Components/Films/Return';
-import Revenge from './Components/Films/Revenge';
+import logo from './img/star.png';
+import CardlistFilmDetails from './Components/Cardlist/CardlistFilmDetails';
+import CardlistCharacDetails from './Components/Cardlist/CardlistCharacDetails';
+import CardlistSpecDetails from './Components/Cardlist/CardlistSpecDetails';
+import CardlistPlanDetails from './Components/Cardlist/CardlistPlanDetails';
 
 const particleOptions = {
   particles: {
     number: {
-      value: 400
+      value: 400,
+      density: {
+        enable: true,
+        value_area: 250
+      }
     },
     size: {
-      value: 1.5
+      value: 1.5,
+      random: true
     },
     line_linked: {
       enable: false
@@ -34,22 +37,22 @@ const particleOptions = {
     opacity: {
       random: true,
       value: 1,
-      anim : {
-        speed: 2.5
+      anim: {
+        speed: 5
       }
     },
-    move : {
+    move: {
       speed: 0
     },
     interactivity: {
       detect_on: 'window'
     }
   }
-}
+};
 
 class App extends React.Component {
   constructor() {
-    super()
+    super();
     this.state = {
       films: [],
       characters: [],
@@ -57,165 +60,274 @@ class App extends React.Component {
       planets: [],
       starships: [],
       vehicles: [],
-      route: 'home',
-      searchfield: ''
-    }
+      searchfield: '',
+      done: false
+    };
   }
 
+  async getData() {
+    const arrayChar = [
+      'https://swapi.co/api/people/?page=1',
+      'https://swapi.co/api/people/?page=2',
+      'https://swapi.co/api/people/?page=3',
+      'https://swapi.co/api/people/?page=4',
+      'https://swapi.co/api/people/?page=5',
+      'https://swapi.co/api/people/?page=6',
+      'https://swapi.co/api/people/?page=7',
+      'https://swapi.co/api/people/?page=8',
+      'https://swapi.co/api/people/?page=9'
+    ];
 
+    const arrayPlan = [
+      'https://swapi.co/api/planets/?page=1',
+      'https://swapi.co/api/planets/?page=2',
+      'https://swapi.co/api/planets/?page=3',
+      'https://swapi.co/api/planets/?page=4',
+      'https://swapi.co/api/planets/?page=5',
+      'https://swapi.co/api/planets/?page=6',
+      'https://swapi.co/api/planets/?page=7'
+    ];
 
-  async getData () {
+    const arraySpec = [
+      'https://swapi.co/api/species/?page=1',
+      'https://swapi.co/api/species/?page=2',
+      'https://swapi.co/api/species/?page=3',
+      'https://swapi.co/api/species/?page=4'
+    ];
+
+    const arrayStarsh = [
+      'https://swapi.co/api/starships/?page=1',
+      'https://swapi.co/api/starships/?page=2',
+      'https://swapi.co/api/starships/?page=3',
+      'https://swapi.co/api/starships/?page=4'
+    ];
+
+    const arrayVehic = [
+      'https://swapi.co/api/vehicles/?page=1',
+      'https://swapi.co/api/vehicles/?page=2',
+      'https://swapi.co/api/vehicles/?page=3',
+      'https://swapi.co/api/vehicles/?page=4'
+    ];
 
     const urls = [
       'https://swapi.co/api/films/',
-     'https://swapi.co/api/people/',
-     'https://swapi.co/api/species/',
-     'https://swapi.co/api/planets/',
-     'https://swapi.co/api/starships/',
-     'https://swapi.co/api/vehicles/',
-    ]
+      'https://swapi.co/api/species/',
+      'https://swapi.co/api/starships/',
+      'https://swapi.co/api/vehicles/'
+    ];
 
-   try {
-     const [films, people, species, planets, starships, vehicles] = 
-     await Promise.all(urls.map(async function(url) {
-      const response = await fetch(url);
-      const result = await response.json();
-      return result.results;    
-     }
-     ));
-     this.setState({
-        films: films, 
+    try {
+      const [p1, p2, p3, p4, p5, p6, p7, p8, p9] = await Promise.all(
+        arrayChar.map(async function(char) {
+          const response = await fetch(char);
+          const result = await response.json();
+          return result.results;
+        })
+      );
+
+      const [pl1, pl2, pl3, pl4, pl5, pl6, pl7] = await Promise.all(
+        arrayPlan.map(async function(plan) {
+          const response = await fetch(plan);
+          const result = await response.json();
+          return result.results;
+        })
+      );
+
+      const [sp1, sp2, sp3, sp4] = await Promise.all(
+        arraySpec.map(async function(spec) {
+          const response = await fetch(spec);
+          const result = await response.json();
+          return result.results;
+        })
+      );
+
+      const [st1, st2, st3, st4] = await Promise.all(
+        arrayStarsh.map(async function(star) {
+          const response = await fetch(star);
+          const result = await response.json();
+          return result.results;
+        })
+      );
+
+      const [vh1, vh2, vh3, vh4] = await Promise.all(
+        arrayVehic.map(async function(veh) {
+          const response = await fetch(veh);
+          const result = await response.json();
+          return result.results;
+        })
+      );
+
+      const people = p1.concat(p2, p3, p4, p5, p6, p7, p8, p9);
+
+      const planets = pl1.concat(pl2, pl3, pl4, pl4, pl5, pl6, pl7);
+
+      const species = sp1.concat(sp2, sp3, sp4);
+
+      const starships = st1.concat(st2, st3, st4);
+
+      const vehicles = vh1.concat(vh2, vh3, vh4);
+
+      const [films] = await Promise.all(
+        urls.map(async function(url) {
+          const response = await fetch(url);
+          const result = await response.json();
+          return result.results;
+        })
+      );
+
+      this.setState({
+        films: films,
         characters: people,
         species: species,
         planets: planets,
         starships: starships,
-        vehicles: vehicles
-      })
-   }
-
-   catch (err) {
-     console.log('Oopsie, something went wrong')
-   }
+        vehicles: vehicles,
+        done: true
+      });
+    } catch (err) {
+      console.log('Oopsie, something went wrong');
+    }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.getData();
   }
 
-  onRoutechange = (route) => {
-    switch (route) {
-      case 'home':
-        return this.setState({route: 'home'})
-      case 'characters': 
-        return this.setState({route: 'characters'})
-      case 'films':
-        return this.setState({route: 'films'})
-      case 'species':
-        return this.setState({route: 'species'})
-      case 'planets':
-        return this.setState({route: 'planets'})
-      case 'starships':
-        return this.setState({route: 'starships'})
-      case 'verhicles':
-          return this.setState({route: 'verhicles'})
-      case 'A New Hope':
-          return this.setState({route: 'newhope'})
-      case 'The Phantom Menace':
-          return this.setState({route: 'phantom'})
-      case 'Attack of the Clones':
-          return this.setState({route: 'attack'})
-      case 'Revenge of the Sith':
-          return this.setState({route: 'revenge'})
-      case 'The Empire Strikes Back':
-          return this.setState({route: 'empire'})
-      case 'The Force Awakens':
-          return this.setState({route: 'force'})
-      default:  return route
-       
-  }
-}
-
   onSearchChange = (event) => {
-    this.setState({searchfield: event.target.value});
-  }
+    this.setState({ searchfield: event.target.value });
+  };
 
-  render () { 
-    const {route, searchfield, characters} = this.state;
-    const filteredCharac = characters.filter(character => {
-      return character.name.toLowerCase().includes(searchfield.toLowerCase());
-    })
+  clearSearch = () => {
+    this.setState({ searchfield: '' });
+  };
+
+  filterSearch = (arr) => {
+    const { searchfield } = this.state;
+    const searchResult = arr.filter((el) => {
+      return el.name.toLowerCase().includes(searchfield.toLowerCase());
+    });
+    return searchResult;
+  };
+
+  render() {
+    const { characters, planets, species, starships, vehicles } = this.state;
+
+    const filteredCharac = this.filterSearch(characters);
+
+    const filteredPlanets = this.filterSearch(planets);
+
+    const filteredSpec = this.filterSearch(species);
+
+    const filteredStarships = this.filterSearch(starships);
+
+    const filteredVehicles = this.filterSearch(vehicles);
 
     return (
-      <div className="App">
-        <Particles className="fixed"
-            params= {particleOptions}
-        />
-         <h1 className="title">Star Wars</h1>
-         <p className='title_small'>May the force be with you</p>
-         <Navigation onRouteChange={this.onRoutechange} />
-        { route === 'home' ?
-        <div>
-          <CardCategory name='characters' onRouteChange={this.onRoutechange} />
-          <CardCategory name='films' onRouteChange={this.onRoutechange} />
-          <CardCategory name='species' onRouteChange={this.onRoutechange} />
-          <CardCategory name='planets' onRouteChange={this.onRoutechange} />
-          <CardCategory name='starships' onRouteChange={this.onRoutechange} />
-          <CardCategory name='vehicles' onRouteChange={this.onRoutechange} />
+      <div className='App'>
+        <Particles className='fixed' params={particleOptions} />
+        <div className='container'>
+          <img className='logo' src={logo} alt='Star Wars logo'></img>
+          <p className='title_small'>May the force be with you</p>
+          <Router>
+            <Navigation clearSearch={this.clearSearch} />
+            <Switch>
+              <Route exact path='/'>
+                <div>
+                  <CardCategory name='Characters' />
+                  <CardCategory name='Films' />
+                  <CardCategory name='Planets' />
+                  <CardCategory name='Species' />
+                  <CardCategory name='Starships' />
+                  <CardCategory name='Vehicles' />
+                </div>
+              </Route>
+
+              <Route exact path='/Films'>
+                {
+                  !this.state.done ? (
+                    <h1 className='loading'>Be Patient....</h1>
+                  ) : (
+                    <Films films={this.state.films} />
+                  )
+                }
+              </Route>
+              <Route exact path='/Characters'>
+                {!this.state.done ? (
+                  <h1 className='loading'>Be Patient....</h1>
+                ) : (
+                  <Characters
+                    characters={filteredCharac}
+                    searchChange={this.onSearchChange}
+                  />
+                )}
+              </Route>
+              <Route exact path='/Planets'>
+                {!this.state.done ? (
+                  <h1 className='loading'>Be Patient....</h1>
+                ) : (
+                  <Planets
+                    planets={filteredPlanets}
+                    searchChange={this.onSearchChange}
+                  />
+                )}
+              </Route>
+              <Route exact path='/Species'>
+                {!this.state.done ? (
+                  <h1 className='loading'>Be Patient....</h1>
+                ) : (
+                  <Species
+                    species={filteredSpec}
+                    searchChange={this.onSearchChange}
+                  />
+                )}
+              </Route>
+              <Route exact path='/Starships'>
+                {!this.state.done ? (
+                  <h1 className='loading'>Be Patient....</h1>
+                ) : (
+                  <Starships
+                    starships={filteredStarships}
+                    searchChange={this.onSearchChange}
+                  />
+                )}
+              </Route>
+              <Route exact path='/Vehicles'>
+                {!this.state.done ? (
+                  <h1 className='loading'>Be Patient....</h1>
+                ) : (
+                  <Vehicles
+                    vehicles={filteredVehicles}
+                    searchChange={this.onSearchChange}
+                  />
+                )}
+              </Route>
+              <Route path='/Films/:title'>
+                <CardlistFilmDetails films={this.state.films} />
+              </Route>
+              <Route path='/Characters/:name'>
+                <CardlistCharacDetails characters={this.state.characters} />
+              </Route>
+              <Route path='/Species/:name'>
+                <CardlistSpecDetails species={this.state.species} />
+              </Route>
+              <Route path='/Planets/:name'>
+                <CardlistPlanDetails planets={this.state.planets} />
+              </Route>
+            </Switch>
+          </Router>
+
+          <footer className='main_footer'>
+            <p className='p_footer'>
+              {' '}
+              Star Wars and all associated names and/or images are copyright
+              Lucasfilm Ltd. Images were freely collected from Wookiepedia, Star
+              Wars Fandom, Starwars.com & Disney Fandom.
+            </p>
+          </footer>
         </div>
-        :route === 'characters' ?
-          <div> 
-            <h2 className="title_categor">Characters</h2>
-            <SearchBox searchChange={this.onSearchChange} />
-            <Cardlist item = {filteredCharac} />
-          </div>
-        :route === 'films' ?
-          <div>
-            <h2 className="title_categor">Films</h2>
-            <CardlistFilms onRoutechange={this.onRoutechange} films= {this.state.films} />
-          </div>
-        :route === 'species' ?
-          <div>
-            <h2 className="title_categor">Species</h2>
-            <Cardlist onRoutechange={this.onRoutechange} item = {this.state.species} />
-          </div>
-        :route === 'planets' ?   
-        <div>
-          <h2 className="title_categor">Planets</h2>
-          <Cardlist onRoutechange={this.onRoutechange} item = {this.state.planets} />
-        </div>
-        :route === 'starships' ?   
-        <div>
-          <h2 className="title_categor">Starships</h2>
-          <Cardlist onRoutechange={this.onRoutechange} item = {this.state.starships} />
-        </div>
-        :route === 'vehicles' ?   
-        <div>
-          <h2 className="title_categor">Vehicles</h2>
-          <Cardlist onRoutechange={this.onRoutechange} item = {this.state.vehicles} />
-        </div>
-        
-       : route === 'newhope' ? <NewHope onRouteChange= {this.onRoutechange} films={this.state.films}/> 
-       : route === 'phantom' ? <Phantom onRouteChange= {this.onRoutechange} films={this.state.films}/> 
-       : route === 'attack' ? <Attack onRouteChange= {this.onRoutechange} films={this.state.films}/> 
-       : route === 'empire' ? <Empire onRouteChange= {this.onRoutechange} films={this.state.films}/> 
-       : route === 'force' ? <Force onRouteChange= {this.onRoutechange} films={this.state.films}/> 
-       : route === 'return' ? <Return onRouteChange= {this.onRoutechange} films={this.state.films}/> 
-       : route === 'revenge' ? <Revenge onRouteChange= {this.onRoutechange} films={this.state.films}/> 
-       : route === 'home'    
-     }
-     <footer className='main_footer'>
-       <div>
-        <p className='p_footer'> Star Wars and all associated names and/or images are copyright Lucasfilm Ltd. Images were freely collected from Wookiepedia.</p>
-       </div>
-      </footer>
       </div>
-      )
+    );
   }
-
-
-
-
 }
-
 
 export default App;

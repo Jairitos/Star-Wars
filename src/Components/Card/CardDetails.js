@@ -1,54 +1,51 @@
 import React from 'react';
-import {imagesFilms} from './img';
+import { images } from './img';
 
 const getPic = (name) => {
-    for(let i = 0; i < imagesFilms.length; i++) {
-        if(imagesFilms[i].name === name) {
-            return imagesFilms[i].url
-        }
-        
+  for (let i = 0; i < images.length; i++) {
+    if (images[i].name === name) {
+      return images[i].url;
     }
-}
+  }
+};
 
-
-const CardDetails = ({title, episode, director, producer, release, opening}) => {
-    return (
-              <div className="bg-yellow br3 ma3 dib container" >
-                <div className ="box_big">
-                    <div className="box_big_img">
-                        <img className="cardDetails_img"alt='film' src={getPic(title)}></img>
-                    </div>
-                    <div className="box_big_item pl5 pr5">
-                        <div>
-                            <h2>{title}</h2>
-                            <p>Episode: {episode} </p>
-                            <p>Director: {director} </p>
-                            <p>Producer: {producer} </p>
-                            <p>Release Date: {release} </p>
-                            <p>Opening Crawl: {opening} </p>
-                        </div>
-                       
-                    </div>
-                
-                    
-                </div>
-                {/* <div>
-                    <p>{title}</p>
-                    <p>{episode_id}</p>
-                    <p>{director}</p>
-                    <p>{skin_color}</p>
-                    <p>{eye_color}</p>
-                    <p>{birth_year}</p>
-                    <p>{gender}</p>
-                </div> */}
-           
-           
-            
+const CardDetails = ({name, height, mass, hair_color, skin_color,  eye_color, birth_year, gender}) => {
+  return (
+    <div className='br3 ma3 dib container'>
+      <div className='box_big'>
+        <div className='box_big_img'>
+          <img className='cardDetails_img' alt='film' src={getPic(name)}></img>
         </div>
-      
-    );
-}
-
+        <div className='box_big_items pl5 pr5'>
+          <div className='box_big_item'>
+            <h2>{name}</h2>
+            <p>
+              <span className='property_title'>Height</span>: {height}{' '}
+            </p>
+            <p>
+              <span className='property_title'>Mass</span>: {mass}{' '}
+            </p>
+            <p>
+              <span className='property_title'>Hair color</span>: {hair_color}{' '}
+            </p>
+            <p>
+              <span className='property_title'>Skin Color</span>: {skin_color}{' '}
+            </p>
+            <p>
+              <span className='property_title'>Eye Color</span>: {eye_color}{' '}
+            </p>
+            <p>
+              <span className='property_title'>Birthyear</span>: {birth_year}{' '}
+            </p>
+            <p>
+              <span className='property_title'>Gender</span>: {gender}{' '}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 
 export default CardDetails;

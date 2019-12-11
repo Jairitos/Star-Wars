@@ -1,29 +1,39 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
-const Navigation = ({onRouteChange}) => {
+const Navigation = ({clearSearch}) => {
     return (
         <nav className="main_nav">
-                <li 
-                onClick={() => onRouteChange('home')} 
-                className='btn_back pa3 pointer'>Home</li>
-                <li 
-                onClick={() => onRouteChange('films')}
-                className='btn_back pa3 pointer'>Films</li>
-                <li
-                onClick={() => onRouteChange('characters')}
-                className='btn_back pa3 pointer'>Characters</li>
-                <li 
-                onClick={() => onRouteChange('species')}
-                className='btn_back pa3 pointer'>Species</li>
-                <li 
-                onClick={() => onRouteChange('planets')}
-                className='btn_back pa3 pointer'>Planets</li>
-                <li 
-                onClick={() => onRouteChange('starships')}
-                className='btn_back pa3 pointer'>Starships</li>
-                <li 
-                onClick={() => onRouteChange('vehicles')}
-                className='btn_back pa3 pointer'>Vehicles</li>
+            <ul className="main_nav_links">
+                <Link to='/'>
+                    <li 
+                    className='btn_back pointer' onClick={clearSearch} >Home</li>
+                </Link>
+                <Link to='/Films'>
+                    <li                    
+                    className='btn_back pointer' onClick={clearSearch}>Films</li>
+                </Link>
+                <Link to='/Characters'>
+                    <li                   
+                    className='btn_back pointer' onClick={clearSearch}>Characters</li>
+                </Link>
+                <Link to='/Species'>
+                    <li 
+                    className='btn_back pointer' onClick={clearSearch}>Species</li>
+                </Link>
+                <Link to='Planets'>
+                    <li
+                    className='btn_back pointer' onClick={clearSearch}>Planets</li>
+                </Link>
+                <Link to ='/Starships'>
+                    <li                    
+                    className='btn_back pointer' onClick={clearSearch}>Starships</li>
+                </Link>
+                <Link to='/Vehicles'>
+                    <li                     
+                    className='btn_back pointer'onClick={clearSearch}>Vehicles</li>
+                </Link>
+            </ul>
         </nav>
     )
 }

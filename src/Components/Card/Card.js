@@ -1,27 +1,24 @@
 import React from 'react';
 import { images } from './img';
+import { Link } from 'react-router-dom';
 
 const getPic = (name) => {
-    for(let i = 0; i < images.length; i++) {
-        if(images[i].name === name) {
-            return images[i].url
-        }
-        
+  for (let pic of images) {
+    if (pic.name === name) {
+      return pic.url;
     }
-}
+  }
+};
 
-
-const Card = ({name}) => {
-    return (
-        <div className="tc ma3 dib grow shadow-5 container btn_card">
-            <img alt='character' src={getPic(name)}></img>
-            <h2 className='card_title'>{name}</h2>
-        </div>
-      
-    );
-}
-
+const Card = ({ category, name }) => {
+  return (
+    <Link to={`/${category}/${name}`}>
+      <div className='tc ma4 dib grow container btn_card'>
+        <img className='card_img' alt='character' src={getPic(name)}></img>
+        <h2 className='card_title'>{name}</h2>
+      </div>
+    </Link>
+  );
+};
 
 export default Card;
-
-
