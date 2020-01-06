@@ -1,13 +1,6 @@
 import React from 'react';
-import { imagesFilms } from './img';
+import {getPic} from '../../Utilities';
 
-const getPic = (name) => {
-  for (let i = 0; i < imagesFilms.length; i++) {
-    if (imagesFilms[i].name === name) {
-      return imagesFilms[i].url;
-    }
-  }
-};
 
 const CardFilmDetails = ({
   title,
@@ -18,14 +11,14 @@ const CardFilmDetails = ({
   opening
 }) => {
   return (
-    <div className='br3 ma3 dib container'>
-      <div className='box_big'>
-        <div className='box_big_img'>
+    <div className='br5 dib container'>
+      <div className='details_container'>
+        <div className='details_container_img'>
           <img className='cardDetails_img' alt='film' src={getPic(title)}></img>
         </div>
-        <div className='box_big_items pl5 pr5'>
-          <div className='box_big_item'>
-            <h2>{title}</h2>
+        <div className='details_container_text'>
+        <h2 className='details_title'>{title}</h2>
+          <div className='details_text pl5 pr5'> 
             <p>
               <span className='property_title'>Episode</span>: {episode}{' '}
             </p>

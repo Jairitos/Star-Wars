@@ -1,14 +1,8 @@
 import React from 'react';
-import { images } from './img';
 import { Link } from 'react-router-dom';
+import {getPic} from '../../Utilities';
 
-const getPic = (name) => {
-  for (let pic of images) {
-    if (pic.name === name) {
-      return pic.url;
-    }
-  }
-};
+
 
 const Card = ({ category, name }) => {
   return (

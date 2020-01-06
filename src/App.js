@@ -1,22 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Particles from 'react-particles-js';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
-// Different pages
-import Characters from './Containers/Characters';
-import Films from './Containers/Films';
-import Planets from './Containers/Planets';
-import Species from './Containers/Species';
-import Starships from './Containers/Starships';
-import Vehicles from './Containers/Vehicles';
+import axios from 'axios';
+import {
+  Characters,
+  Planets,
+  Species,
+  Films,
+  Starships,
+  Vehicles
+} from './Containers';
+// import {
+//   CardlistCharacDetails,
+//   CardlistFilmDetails,
+//   CardlistPlanDetails,
+//   CardlistSpecDetails
+// } from './Components/Cardlist/index.js';
+
+import CardlistCharacDetails from './Components/Cardlist/CardlistCharacDetails';
+import CardlistFilmDetails from './Components/Cardlist/CardlistFilmDetails';
+import CardlistPlanDetails from './Components/Cardlist/CardlistPlanDetails';
+import CardlistSpecDetails from './Components/Cardlist/CardlistSpecDetails';
+import CardlistStarshipsDetails from './Components/Cardlist/CardlistStarshipDetails';
+import CardlistVehiclesDetails from './Components/Cardlist/CardlistVehiclesDetails';
 
 import Navigation from './Components/Navigation/Navigation';
 import CardCategory from './Components/Card/CardCat';
 import logo from './img/star.png';
-import CardlistFilmDetails from './Components/Cardlist/CardlistFilmDetails';
-import CardlistCharacDetails from './Components/Cardlist/CardlistCharacDetails';
-import CardlistSpecDetails from './Components/Cardlist/CardlistSpecDetails';
-import CardlistPlanDetails from './Components/Cardlist/CardlistPlanDetails';
+// import Pagination from './Components/Pagination/Pagination';
 
 const particleOptions = {
   particles: {
@@ -50,22 +62,19 @@ const particleOptions = {
   }
 };
 
-class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      films: [],
-      characters: [],
-      species: [],
-      planets: [],
-      starships: [],
-      vehicles: [],
-      searchfield: '',
-      done: false
-    };
-  }
+function App() {
+  const [films, setFilms] = useState([]);
+  const [characters, setCharacters] = useState([]);
+  const [species, setSpecies] = useState([]);
+  const [planets, setPlanets] = useState([]);
+  const [starships, setStarships] = useState([]);
+  const [vehicles, setVehicles] = useState([]);
+  const [searchfield, setSearchfield] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
 
-  async getData() {
+  useEffect(() => {
     const arrayChar = [
       'https://swapi.co/api/people/?page=1',
       'https://swapi.co/api/people/?page=2',
@@ -109,225 +118,326 @@ class App extends React.Component {
       'https://swapi.co/api/vehicles/?page=4'
     ];
 
-    const urls = [
-      'https://swapi.co/api/films/',
-      'https://swapi.co/api/species/',
-      'https://swapi.co/api/starships/',
-      'https://swapi.co/api/vehicles/'
-    ];
+    const arrayFilm = ['https://swapi.co/api/films/'];
 
-    try {
-      const [p1, p2, p3, p4, p5, p6, p7, p8, p9] = await Promise.all(
-        arrayChar.map(async function(char) {
-          const response = await fetch(char);
-          const result = await response.json();
-          return result.results;
-        })
-      );
 
-      const [pl1, pl2, pl3, pl4, pl5, pl6, pl7] = await Promise.all(
-        arrayPlan.map(async function(plan) {
-          const response = await fetch(plan);
-          const result = await response.json();
-          return result.results;
-        })
-      );
+// Api call based on curentpage number
+    // const getDataChar2 = async (page) => {
+    //   try {
+    //     let response = await fetch(`https://swapi.co/api/people/?page=${page}`);
+    //     let result = await response.json();
+    //     let people = [result.results];
+    //     console.log(people);
+    //     setCharacters(people);
+    //     setIsLoading(false);
+    //   } catch (err) {
+    //     console.log('something went wrong');
+    //   }
+    // };
 
-      const [sp1, sp2, sp3, sp4] = await Promise.all(
-        arraySpec.map(async function(spec) {
-          const response = await fetch(spec);
-          const result = await response.json();
-          return result.results;
-        })
-      );
 
-      const [st1, st2, st3, st4] = await Promise.all(
-        arrayStarsh.map(async function(star) {
-          const response = await fetch(star);
-          const result = await response.json();
-          return result.results;
-        })
-      );
+    const getDataChar = async () => {
+      try {
+        const [p1, p2, p3, p4, p5, p6, p7, p8, p9] = await axios.all(
+          arrayChar.map(async function(char) {
+            let response = await fetch(char);
+            const result = await response.json();
+            return result.results;
+          })
+        );
 
-      const [vh1, vh2, vh3, vh4] = await Promise.all(
-        arrayVehic.map(async function(veh) {
-          const response = await fetch(veh);
-          const result = await response.json();
-          return result.results;
-        })
-      );
+        const people = p1.concat(p2, p3, p4, p5, p6, p7, p8, p9);
 
-      const people = p1.concat(p2, p3, p4, p5, p6, p7, p8, p9);
+        setCharacters(people);
+        setIsLoading(false);
+      } catch (error) {
+        console.log('Something went wrong');
+      }
+    };
 
-      const planets = pl1.concat(pl2, pl3, pl4, pl4, pl5, pl6, pl7);
+    const getDataPlan = async () => {
+      try {
+        const [pl1, pl2, pl3, pl4, pl5, pl6, pl7] = await Promise.all(
+          arrayPlan.map(async function(plan) {
+            const response = await fetch(plan);
+            const result = await response.json();
+            return result.results;
+          })
+        );
 
-      const species = sp1.concat(sp2, sp3, sp4);
+        const planets = pl1.concat(pl2, pl3, pl4, pl4, pl5, pl6, pl7);
 
-      const starships = st1.concat(st2, st3, st4);
+        setPlanets(planets);
+        setIsLoading(false);
+      } catch (error) {
+        console.log('Something went wrong');
+      }
+    };
 
-      const vehicles = vh1.concat(vh2, vh3, vh4);
+    const getDataSpec = async () => {
+      try {
+        const [sp1, sp2, sp3, sp4] = await Promise.all(
+          arraySpec.map(async function(spec) {
+            const response = await fetch(spec);
+            const result = await response.json();
+            return result.results;
+          })
+        );
 
-      const [films] = await Promise.all(
-        urls.map(async function(url) {
-          const response = await fetch(url);
-          const result = await response.json();
-          return result.results;
-        })
-      );
+        const species = sp1.concat(sp2, sp3, sp4);
 
-      this.setState({
-        films: films,
-        characters: people,
-        species: species,
-        planets: planets,
-        starships: starships,
-        vehicles: vehicles,
-        done: true
-      });
-    } catch (err) {
-      console.log('Oopsie, something went wrong');
-    }
-  }
+        setSpecies(species);
+        setIsLoading(false);
+      } catch (error) {
+        console.log('Something went wrong');
+      }
+    };
 
-  componentDidMount() {
-    this.getData();
-  }
+    const getDataStarships = async () => {
+      try {
+        const [st1, st2, st3, st4] = await Promise.all(
+          arrayStarsh.map(async function(star) {
+            const response = await fetch(star);
+            const result = await response.json();
+            return result.results;
+          })
+        );
 
-  onSearchChange = (event) => {
-    this.setState({ searchfield: event.target.value });
+        const starships = st1.concat(st2, st3, st4);
+
+        setStarships(starships);
+        setIsLoading(false);
+      } catch (error) {
+        console.log('Something went wrong');
+      }
+    };
+
+    const getDataVehicles = async () => {
+      try {
+        const [vh1, vh2, vh3, vh4] = await Promise.all(
+          arrayVehic.map(async function(veh) {
+            const response = await fetch(veh);
+            const result = await response.json();
+            return result.results;
+          })
+        );
+
+        const vehicles = vh1.concat(vh2, vh3, vh4);
+
+        setVehicles(vehicles);
+        setIsLoading(false);
+      } catch (error) {
+        console.log('Something went wrong');
+      }
+    };
+
+    const getDataFilm = async () => {
+      try {
+        const [films] = await Promise.all(
+          arrayFilm.map(async function(film) {
+            const response = await fetch(film);
+            const result = await response.json();
+            return result.results;
+          })
+        );
+
+        setFilms(films);
+        setIsLoading(false);
+      } catch (err) {
+        console.log('Oopsie, something went wrong');
+      }
+    };
+
+    // getDataChar2(currentPage);
+    getDataChar();
+    getDataFilm();
+    getDataPlan();
+    getDataSpec();
+    getDataStarships();
+    getDataVehicles();
+  }, [currentPage]);
+
+  const getPage = (item) => {
+    const indexOfLastPost = currentPage * itemsPerPage;
+    const indexOfFirstPost = indexOfLastPost - itemsPerPage;
+    const currentItems = item.slice(indexOfFirstPost, indexOfLastPost);
+    return currentItems;
   };
 
-  clearSearch = () => {
-    this.setState({ searchfield: '' });
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
-  filterSearch = (arr) => {
-    const { searchfield } = this.state;
+  const onSearchChange = (event) => {
+    setSearchfield(event.target.value);
+  };
+
+  const clearSearchPageNumber = () => {
+    setSearchfield('');
+    setCurrentPage(1);
+  };
+
+  const filterSearch = (arr) => {
     const searchResult = arr.filter((el) => {
       return el.name.toLowerCase().includes(searchfield.toLowerCase());
     });
     return searchResult;
   };
 
-  render() {
-    const { characters, planets, species, starships, vehicles } = this.state;
+  const filteredCharac = filterSearch(getPage(characters));
 
-    const filteredCharac = this.filterSearch(characters);
+  const filteredPlanets = filterSearch(getPage(planets));
 
-    const filteredPlanets = this.filterSearch(planets);
+  const filteredSpec = filterSearch(getPage(species));
 
-    const filteredSpec = this.filterSearch(species);
+  const filteredStarships = filterSearch(getPage(starships));
 
-    const filteredStarships = this.filterSearch(starships);
+  const filteredVehicles = filterSearch(getPage(vehicles));
 
-    const filteredVehicles = this.filterSearch(vehicles);
+  return (
+    <div className='App'>
+      <Particles className='fixed' params={particleOptions} />
+      <div className='container'>
+        <img className='logo' src={logo} alt='Star Wars logo'></img>
+        <p className='title_small'>May the force be with you</p>
+        <Router>
+          <Navigation clearSearch={clearSearchPageNumber} />
+          <Switch>
+            <Route exact path='/'>
+              <div>
+                <CardCategory name='Characters' />
+                <CardCategory name='Films' />
+                <CardCategory name='Planets' />
+                <CardCategory name='Species' />
+                <CardCategory name='Starships' />
+                <CardCategory name='Vehicles' />
+              </div>
+            </Route>
 
-    return (
-      <div className='App'>
-        <Particles className='fixed' params={particleOptions} />
-        <div className='container'>
-          <img className='logo' src={logo} alt='Star Wars logo'></img>
-          <p className='title_small'>May the force be with you</p>
-          <Router>
-            <Navigation clearSearch={this.clearSearch} />
-            <Switch>
-              <Route exact path='/'>
-                <div>
-                  <CardCategory name='Characters' />
-                  <CardCategory name='Films' />
-                  <CardCategory name='Planets' />
-                  <CardCategory name='Species' />
-                  <CardCategory name='Starships' />
-                  <CardCategory name='Vehicles' />
-                </div>
-              </Route>
+            <Route exact path='/Films'>
+              {isLoading ? (
+                <h1 className='loading'>Be Patient, Padawan....</h1>
+              ) : (
+                <Films films={films} />
+              )}
+            </Route>
+            <Route exact path='/Characters'>
+              {isLoading ? (
+                <h1 className='loading'>Be Patient, Padawan....</h1>
+              ) : (
+                <Characters
+                  characters={filteredCharac}
+                  searchChange={onSearchChange}
+                  itemsPerPage={itemsPerPage}
+                  paginate={paginate}
+                  totalItems={87}
+                />
+              )}
+            </Route>
+            <Route exact path='/Planets'>
+              {isLoading ? (
+                <h1 className='loading'>Be Patient, Padawan....</h1>
+              ) : (
+                <Planets
+                  planets={filteredPlanets}
+                  searchChange={onSearchChange}
+                  itemsPerPage={itemsPerPage}
+                  paginate={paginate}
+                  totalItems={planets.length}
+                />
+              )}
+            </Route>
+            <Route exact path='/Species'>
+              {isLoading ? (
+                <h1 className='loading'>Be Patient, Padawan....</h1>
+              ) : (
+                <Species
+                  species={filteredSpec}
+                  searchChange={onSearchChange}
+                  itemsPerPage={itemsPerPage}
+                  paginate={paginate}
+                  totalItems={species.length}
+                />
+              )}
+            </Route>
+            <Route exact path='/Starships'>
+              {isLoading ? (
+                <h1 className='loading'>Be Patient, Padawan....</h1>
+              ) : (
+                <Starships
+                  starships={filteredStarships}
+                  searchChange={onSearchChange}
+                  itemsPerPage={itemsPerPage}
+                  paginate={paginate}
+                  totalItems={starships.length}
+                />
+              )}
+            </Route>
+            <Route exact path='/Vehicles'>
+              {isLoading ? (
+                <h1 className='loading'>Be Patient, Padawan....</h1>
+              ) : (
+                <Vehicles
+                  vehicles={filteredVehicles}
+                  searchChange={onSearchChange}
+                  itemsPerPage={itemsPerPage}
+                  paginate={paginate}
+                  totalItems={vehicles.length}
+                />
+              )}
+            </Route>
+            <Route path='/Films/:title'>
+              <CardlistFilmDetails films={films} />
+            </Route>
+            <Route path='/Characters/:name'>
+              <CardlistCharacDetails characters={characters} />
+            </Route>
+            <Route path='/Planets/:name'>
+              <CardlistPlanDetails planets={planets} />
+            </Route>
+            <Route path='/Species/:name'>
+              <CardlistSpecDetails species={species} />
+            </Route>
+            <Route path='/Starships/:name'>
+              <CardlistStarshipsDetails starships={starships} />
+            </Route>
+            <Route path='/Vehicles/:name'>
+              <CardlistVehiclesDetails vehicles={vehicles} />
+            </Route>
+          </Switch>
+        </Router>
 
-              <Route exact path='/Films'>
-                {
-                  !this.state.done ? (
-                    <h1 className='loading'>Be Patient....</h1>
-                  ) : (
-                    <Films films={this.state.films} />
-                  )
-                }
-              </Route>
-              <Route exact path='/Characters'>
-                {!this.state.done ? (
-                  <h1 className='loading'>Be Patient....</h1>
-                ) : (
-                  <Characters
-                    characters={filteredCharac}
-                    searchChange={this.onSearchChange}
-                  />
-                )}
-              </Route>
-              <Route exact path='/Planets'>
-                {!this.state.done ? (
-                  <h1 className='loading'>Be Patient....</h1>
-                ) : (
-                  <Planets
-                    planets={filteredPlanets}
-                    searchChange={this.onSearchChange}
-                  />
-                )}
-              </Route>
-              <Route exact path='/Species'>
-                {!this.state.done ? (
-                  <h1 className='loading'>Be Patient....</h1>
-                ) : (
-                  <Species
-                    species={filteredSpec}
-                    searchChange={this.onSearchChange}
-                  />
-                )}
-              </Route>
-              <Route exact path='/Starships'>
-                {!this.state.done ? (
-                  <h1 className='loading'>Be Patient....</h1>
-                ) : (
-                  <Starships
-                    starships={filteredStarships}
-                    searchChange={this.onSearchChange}
-                  />
-                )}
-              </Route>
-              <Route exact path='/Vehicles'>
-                {!this.state.done ? (
-                  <h1 className='loading'>Be Patient....</h1>
-                ) : (
-                  <Vehicles
-                    vehicles={filteredVehicles}
-                    searchChange={this.onSearchChange}
-                  />
-                )}
-              </Route>
-              <Route path='/Films/:title'>
-                <CardlistFilmDetails films={this.state.films} />
-              </Route>
-              <Route path='/Characters/:name'>
-                <CardlistCharacDetails characters={this.state.characters} />
-              </Route>
-              <Route path='/Species/:name'>
-                <CardlistSpecDetails species={this.state.species} />
-              </Route>
-              <Route path='/Planets/:name'>
-                <CardlistPlanDetails planets={this.state.planets} />
-              </Route>
-            </Switch>
-          </Router>
-
-          <footer className='main_footer'>
-            <p className='p_footer'>
-              {' '}
-              Star Wars and all associated names and/or images are copyright
-              Lucasfilm Ltd. Images were freely collected from Wookiepedia, Star
-              Wars Fandom, Starwars.com & Disney Fandom.
-            </p>
-          </footer>
-        </div>
+        <footer className='main_footer'>
+          <p className='p_footer'>
+            {' '}
+            Star Wars and all associated names and/or images are copyright
+            Lucasfilm Ltd. Images were freely collected from Wookiepedia, Star
+            Wars Fandom, Starwars.com & Disney Fandom.
+          </p>
+        </footer>
       </div>
-    );
-  }
+    </div>
+  );
 }
+
+// class App extends React.Component {
+//   constructor() {
+//     super();
+//     this.state = {
+//       films: [],
+//       characters: [],
+//       species: [],
+//       planets: [],
+//       starships: [],
+//       vehicles: [],
+//       searchfield: '',
+//       done: false,
+//       currentPage: 1,
+//       itemsPerPage: 10
+
+//     };
+//   }
+
+// }
 
 export default App;

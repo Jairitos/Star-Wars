@@ -1,0 +1,34 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 2rem 0;
+}
+
+.page-item {
+  display: inline-block;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 700;
+  list-style: none;
+  border: 1px solid rgb(189, 183, 12);
+  background: transparent;
+  box-shadow: 1px 5px 20px rgb(189, 183, 12);
+  transition: all 0.5s;
+  padding: 0.2rem 2rem;
+}
+
+.page-link {
+  text-decoration: none;
+  color: #f4f4f4;
+  transition: all 0.5s;
+}
+
+.page-item:hover {
+  background: rgb(189, 183, 12);
+}
+
+.page-item:hover .page-link {
+  color: #333;
+}

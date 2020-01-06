@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 
-const getCategoryImg = (name, imgName = '') => {
+const getCategoryImg = (name, imgName='') => {
   switch (name) {
     case 'Characters':
       return (imgName =
@@ -29,7 +29,7 @@ const getCategoryImg = (name, imgName = '') => {
 
 const CardCategory = ({ name }) => {
   const linkName = `/${name}`;
-
+ 
   return (
     <Link to={linkName}>
       <div className='ma3 dib btn_card_cat category_container'>

@@ -6,9 +6,10 @@ const CardlistCharacDetails = ({ characters }) => {
   let { name } = useParams();
   return (
     <div>
-      {characters.map((character, i) => {
-        if (character.name === name) {
-          return (
+      {characters.map((charac, i) => {
+        let character;
+        if (charac.name === name) {
+          character =
             <CardDetails
               key={i}
               name={characters[i].name}
@@ -20,8 +21,9 @@ const CardlistCharacDetails = ({ characters }) => {
               birth_year={characters[i].birth_year}
               gender={characters[i].gender}
             />
-          );
+          return character
         }
+        return character
       })}
     </div>
   );

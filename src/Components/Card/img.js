@@ -271,7 +271,9 @@ import geonosianStarfighter from './img/vehicles/geonosianStarfighter.jpg';
 import neimoidianShuttle from './img/vehicles/neimoidianShuttle.jpg';
 import droidGunship from './img/vehicles/droidGunship.jpg';
 
-export const imagesFilms = [
+
+
+export const images = [
   // Images Films
   {
     name: 'A New Hope',
@@ -300,10 +302,7 @@ export const imagesFilms = [
   {
     name: 'The Force Awakens',
     url: force
-  }
-];
-
-export const images = [
+  },
   // Images Characters
   {
     name: 'Luke Skywalker',
@@ -1343,5 +1342,9 @@ export const images = [
   {
     name: 'Geonosian starfighter',
     url: geonosianStarfighter
+  },
+  {
+    name: 'Speeder Bike',
+    url: speederBike
   }
 ];

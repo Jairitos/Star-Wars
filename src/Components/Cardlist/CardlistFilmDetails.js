@@ -7,8 +7,9 @@ const CardlistFilmDetails = ({ films }) => {
   return (
     <div>
       {films.map((user, i) => {
+        let film;
         if (films[i].title === title) {
-          return (
+         film =
             <CardFilmDetails
               key={i}
               id={i}
@@ -19,8 +20,9 @@ const CardlistFilmDetails = ({ films }) => {
               release={films[i].release_date}
               opening={films[i].opening_crawl}
             />
-          );
+          return film
         }
+        return film
       })}
     </div>
   );

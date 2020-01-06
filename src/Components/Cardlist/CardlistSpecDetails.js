@@ -6,9 +6,10 @@ const CardlistSpecDetails = ({ species }) => {
   let { name } = useParams();
   return (
     <div>
-      {species.map((specie, i) => {
+      {species.map((spec, i) => {
+        let specie;
         if(species[i].name === name) {
-          return (
+          specie = 
             <CardSpecDetails
               key={i}
               name={species[i].name}
@@ -21,8 +22,9 @@ const CardlistSpecDetails = ({ species }) => {
               average_lifespan={species[i].average_lifespan}
               language={species[i].language}
             />
-          );
+          return specie
         }
+        return specie
       })}
     </div>
   );
