@@ -76,55 +76,55 @@ function App() {
 
   useEffect(() => {
     const arrayChar = [
-      'https://swapi.co/api/people/?page=1',
-      'https://swapi.co/api/people/?page=2',
-      'https://swapi.co/api/people/?page=3',
-      'https://swapi.co/api/people/?page=4',
-      'https://swapi.co/api/people/?page=5',
-      'https://swapi.co/api/people/?page=6',
-      'https://swapi.co/api/people/?page=7',
-      'https://swapi.co/api/people/?page=8',
-      'https://swapi.co/api/people/?page=9'
+      'https://swapi.dev/api/people/?page=1',
+      'https://swapi.dev/api/people/?page=2',
+      'https://swapi.dev/api/people/?page=3',
+      'https://swapi.dev/api/people/?page=4',
+      'https://swapi.dev/api/people/?page=5',
+      'https://swapi.dev/api/people/?page=6',
+      'https://swapi.dev/api/people/?page=7',
+      'https://swapi.dev/api/people/?page=8',
+      'https://swapi.dev/api/people/?page=9'
     ];
 
     const arrayPlan = [
-      'https://swapi.co/api/planets/?page=1',
-      'https://swapi.co/api/planets/?page=2',
-      'https://swapi.co/api/planets/?page=3',
-      'https://swapi.co/api/planets/?page=4',
-      'https://swapi.co/api/planets/?page=5',
-      'https://swapi.co/api/planets/?page=6',
-      'https://swapi.co/api/planets/?page=7'
+      'https://swapi.dev/api/planets/?page=1',
+      'https://swapi.dev/api/planets/?page=2',
+      'https://swapi.dev/api/planets/?page=3',
+      'https://swapi.dev/api/planets/?page=4',
+      'https://swapi.dev/api/planets/?page=5',
+      'https://swapi.dev/api/planets/?page=6',
+      'https://swapi.dev/api/planets/?page=7'
     ];
 
     const arraySpec = [
-      'https://swapi.co/api/species/?page=1',
-      'https://swapi.co/api/species/?page=2',
-      'https://swapi.co/api/species/?page=3',
-      'https://swapi.co/api/species/?page=4'
+      'https://swapi.dev/api/species/?page=1',
+      'https://swapi.dev/api/species/?page=2',
+      'https://swapi.dev/api/species/?page=3',
+      'https://swapi.dev/api/species/?page=4'
     ];
 
     const arrayStarsh = [
-      'https://swapi.co/api/starships/?page=1',
-      'https://swapi.co/api/starships/?page=2',
-      'https://swapi.co/api/starships/?page=3',
-      'https://swapi.co/api/starships/?page=4'
+      'https://swapi.dev/api/starships/?page=1',
+      'https://swapi.dev/api/starships/?page=2',
+      'https://swapi.dev/api/starships/?page=3',
+      'https://swapi.dev/api/starships/?page=4'
     ];
 
     const arrayVehic = [
-      'https://swapi.co/api/vehicles/?page=1',
-      'https://swapi.co/api/vehicles/?page=2',
-      'https://swapi.co/api/vehicles/?page=3',
-      'https://swapi.co/api/vehicles/?page=4'
+      'https://swapi.dev/api/vehicles/?page=1',
+      'https://swapi.dev/api/vehicles/?page=2',
+      'https://swapi.dev/api/vehicles/?page=3',
+      'https://swapi.dev/api/vehicles/?page=4'
     ];
 
-    const arrayFilm = ['https://swapi.co/api/films/'];
+    const arrayFilm = ['https://swapi.dev/api/films/'];
 
 
 // Api call based on curentpage number
     // const getDataChar2 = async (page) => {
     //   try {
-    //     let response = await fetch(`https://swapi.co/api/people/?page=${page}`);
+    //     let response = await fetch(`https://swapi.dev/api/people/?page=${page}`);
     //     let result = await response.json();
     //     let people = [result.results];
     //     console.log(people);
@@ -157,7 +157,7 @@ function App() {
 
     const getDataPlan = async () => {
       try {
-        const [pl1, pl2, pl3, pl4, pl5, pl6, pl7] = await Promise.all(
+        const [pl1, pl2, pl3, pl4, pl5, pl6, pl7] = await axios.all(
           arrayPlan.map(async function(plan) {
             const response = await fetch(plan);
             const result = await response.json();
@@ -176,7 +176,7 @@ function App() {
 
     const getDataSpec = async () => {
       try {
-        const [sp1, sp2, sp3, sp4] = await Promise.all(
+        const [sp1, sp2, sp3, sp4] = await axios.all(
           arraySpec.map(async function(spec) {
             const response = await fetch(spec);
             const result = await response.json();
@@ -195,7 +195,7 @@ function App() {
 
     const getDataStarships = async () => {
       try {
-        const [st1, st2, st3, st4] = await Promise.all(
+        const [st1, st2, st3, st4] = await axios.all(
           arrayStarsh.map(async function(star) {
             const response = await fetch(star);
             const result = await response.json();
@@ -214,7 +214,7 @@ function App() {
 
     const getDataVehicles = async () => {
       try {
-        const [vh1, vh2, vh3, vh4] = await Promise.all(
+        const [vh1, vh2, vh3, vh4] = await axios.all(
           arrayVehic.map(async function(veh) {
             const response = await fetch(veh);
             const result = await response.json();
@@ -233,7 +233,7 @@ function App() {
 
     const getDataFilm = async () => {
       try {
-        const [films] = await Promise.all(
+        const [films] = await axios.all(
           arrayFilm.map(async function(film) {
             const response = await fetch(film);
             const result = await response.json();
